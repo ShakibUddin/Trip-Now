@@ -10,7 +10,7 @@ const Trips = () => {
             <p className="font-bold text-4xl uppercase p-3 mt-16 mb-2 text-black">Choose Your Dream Trips</p>
             <div className="w-full mx-auto flex flex-wrap justify-center">
                 {
-                    trips.map(item => <TripCard key={item.id} data={item}></TripCard>)
+                    trips.map(item => <TripCard key={item._id} data={item}></TripCard>)
                 }
             </div>
         </div>

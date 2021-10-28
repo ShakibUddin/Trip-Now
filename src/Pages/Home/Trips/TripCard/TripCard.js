@@ -6,7 +6,7 @@ const TripCard = (props) => {
     return (
         <div className="lg:w-1/3 md:w-3/4 sm:w-full m-2 my-7 bg-white rounded-md shadow-sm p-4 flex flex-col justify-between">
             <div className='w-full'>
-                <div className="w-full h-60">
+                <div className="w-full h-60 rounded-lg overflow-hidden">
                     <img src={image} className="w-full h-full" alt="" />
                 </div>
                 <div className="py-4">

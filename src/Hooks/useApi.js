@@ -7,8 +7,10 @@ let useApi = () => {
     const serverUrl = development ? developmentUrl : productionUrl;
 
     const [trips, setTrips] = useState([]);
+    const [hotels, setHotels] = useState([]);
 
     const tripsUrl = `${serverUrl}/trips`;
+    const hotelsUrl = `${serverUrl}/hotels`;
 
     useEffect(() => {
         axios.get(tripsUrl)
@@ -17,8 +19,15 @@ let useApi = () => {
             })
             .catch(e => console.log(e));
     }, []);
+    useEffect(() => {
+        axios.get(hotelsUrl)
+            .then(response => {
+                setHotels(response.data);
+            })
+            .catch(e => console.log(e));
+    }, []);
 
-    return { trips };
+    return { trips, hotels };
 }
 
 export default useApi;
