@@ -19,7 +19,7 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const Managebookings = () => {
-    const { allBookings, handleDeleteBooking, fetchBookings } = useData();
+    const { allBookings, handleDeleteBooking, fetchBookings, handleUpdateBooking } = useData();
     const [modalIsOpen, setIsOpen] = useState(false);
     //clicked booking object
     const [booking, setBooking] = useState({});
@@ -66,7 +66,11 @@ const Managebookings = () => {
                                 <Td className="text-gray-400 text-xs text-center py-3">{booking.approved ? "Yes" : "No"}</Td>
                                 <Td>
                                     <div className="flex justify-center">
-                                        <button className="w-2/4 mx-1 p-2 bg-green-500 text-white">Approve</button>
+                                        <button className="w-2/4 mx-1 p-2 bg-green-500 text-white" onClick={() => {
+                                            //passing clicked booking _id
+                                            handleUpdateBooking(booking._id);
+                                        }
+                                        }>Approve</button>
                                         <button className="w-2/4 mx-1 p-2 bg-red-500 text-white" onClick={() => {
                                             // passing the clickd booking object
                                             openModal(booking);

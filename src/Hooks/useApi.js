@@ -10,7 +10,6 @@ let useApi = () => {
     const [hotels, setHotels] = useState([]);
     const [allBookings, setAllBookings] = useState([]);
     const [tripBooked, setTripBooked] = useState();
-    const [bookingDeleted, setBookingDeleted] = useState();
     const [locationState, setLocationState] = useState();
 
     const tripsUrl = `${serverUrl}/trips`;
@@ -18,6 +17,7 @@ let useApi = () => {
     const bookingUrl = `${serverUrl}/booking`;
     const allBookingsUrl = `${serverUrl}/allbookings`;
     const deleteBookingUrl = `${serverUrl}/delete/booking`;//need to add _id
+    const updateBookingUrl = `${serverUrl}/update/booking`;//need to add _id
 
     const fetchTrips = () => {
         axios.get(tripsUrl)
@@ -78,21 +78,28 @@ let useApi = () => {
         axios.delete(`${deleteBookingUrl}/${id}`)
             .then(function (response) {
                 if (response.data) {
-                    //if booking is deleted set true else false
-                    setBookingDeleted(true);
                     //fetch new data
                     fetchBookings();
-                }
-                else {
-                    setBookingDeleted(false);
                 }
             })
             .catch(function (error) {
                 console.log(error);
-                setTripBooked(false);
             });
     }
-    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings };
+
+    const handleUpdateBooking = (id) => {
+        axios.put(`${updateBookingUrl}/${id}`)
+            .then(function (response) {
+                if (response.data) {
+                    //fetch new data
+                    fetchBookings();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking };
 }
 
 export default useApi;
