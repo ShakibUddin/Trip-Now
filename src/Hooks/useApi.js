@@ -11,6 +11,7 @@ let useApi = () => {
 
     const tripsUrl = `${serverUrl}/trips`;
     const hotelsUrl = `${serverUrl}/hotels`;
+    const bookingUrl = `${serverUrl}/booking`;
 
     useEffect(() => {
         axios.get(tripsUrl)
@@ -27,7 +28,25 @@ let useApi = () => {
             .catch(e => console.log(e));
     }, []);
 
-    return { trips, hotels };
+
+    const handleBooking = (tripId, email, contact, address) => {
+        axios.post(bookingUrl, {
+            tripId, email, contact, address
+        })
+            .then(function (response) {
+                console.log(response);
+                if (response.data) {
+                    console.log("Trip Booked Successfully")
+                }
+                else {
+                    console.log("Trip Booked Failed.")
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    return { trips, hotels, handleBooking };
 }
 
 export default useApi;

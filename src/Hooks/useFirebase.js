@@ -11,36 +11,8 @@ const useFirebase = () => {
     const [error, setError] = useState("");
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const axios = require('axios');
 
-    //As i am using firebase for authentication 
-    //User signin/signup data is saved in firebase,
-    //so, after firebase signin/signup, google,github signin, 
-    //user data is being sent to database(mongodb)
-    //before sending, I am checking if user exists in database
-    //if user exists i dont need to add him
-    //else i am adding user
-    const checkIfUserExistsInDatabase = ({ email, name, photo }) => {
-        axios.post('http://localhost:5000/checkusers', { email })
-            .then(function (response) {
-                // if response is false, it means user with this email does not exists
-                //then add the user in database
-                if (!response.data) {
-                    postDataInDatabase({ email, name, photo });
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-    const postDataInDatabase = ({ email, name, photo }) => {
-        axios.post('http://localhost:5000/users', {
-            name, email, photo
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+
     const handleGoogleSignIn = () => {
         return signInWithPopup(auth, googleProvider)
             .then(result => {
@@ -53,8 +25,6 @@ const useFirebase = () => {
                 };
                 setError("");
                 setUser(loggedInUser);
-                //just sending name,email,photo
-                checkIfUserExistsInDatabase(loggedInUser);
             })
             .catch(error => {
                 setError(error.code);
@@ -73,8 +43,6 @@ const useFirebase = () => {
                 };
                 setError("");
                 setUser(loggedInUser);
-                //just sending name,email,photo
-                checkIfUserExistsInDatabase(loggedInUser);
             })
             .catch(error => {
                 setError(error.code);
@@ -89,8 +57,6 @@ const useFirebase = () => {
                 const user = userCredential.user;
                 setUser(user);
                 setError("");
-                //just sending name,email,photo
-                checkIfUserExistsInDatabase({ "email": user.email, "name": "", "photo": "" });
             })
             .catch((error) => {
                 setError(error.code);
@@ -105,8 +71,6 @@ const useFirebase = () => {
                 const user = userCredential.user;
                 sendEmailVerificationLink().then((result) => {
                     setUser(user);
-                    //just sending name,email,photo
-                    checkIfUserExistsInDatabase({ "email": user.email, "name": "", "photo": "" });
                     setError("");
                 });
             })

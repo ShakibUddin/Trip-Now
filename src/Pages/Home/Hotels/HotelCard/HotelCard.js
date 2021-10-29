@@ -22,7 +22,7 @@ const HotelCard = (props) => {
                     />
                 </div>
                 <p className="text-yellow-500 font-bold text-xl">
-                    From {price}
+                    From {price} Taka
                 </p>
             </div>
         </div>
