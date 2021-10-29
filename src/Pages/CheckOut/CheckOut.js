@@ -42,7 +42,6 @@ const CheckOut = () => {
     //then open modal
 
 
-    let subtitle = "";
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
@@ -75,7 +74,7 @@ const CheckOut = () => {
     const formOptions = { resolver: yupResolver(validationSchema) };
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
-        handleBooking(tripId, user.email, data.contact, data.address);
+        handleBooking(tripId, trip.name, user.email, data.contact, data.address);
         openModal();
     };
 
@@ -124,7 +123,7 @@ const CheckOut = () => {
                         <img className="w-full" src={tripBooked ? complete : failed} alt="" />
                     </div>
                     {tripBooked ? <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Trip booked successfully</p> : <p className="text-3xl py-10 text-red-600 font-extrabold text-center">Trip booked failed</p>}
-                    {tripBooked ? <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button> : <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button>}
+                    <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button>
                 </div>
             </Modal>
         </form>

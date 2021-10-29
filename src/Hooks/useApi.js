@@ -19,32 +19,41 @@ let useApi = () => {
     const allBookingsUrl = `${serverUrl}/allbookings`;
     const deleteBookingUrl = `${serverUrl}/delete/booking`;//need to add _id
 
-    useEffect(() => {
+    const fetchTrips = () => {
         axios.get(tripsUrl)
             .then(response => {
                 setTrips(response.data);
             })
             .catch(e => console.log(e));
-    }, []);
-    useEffect(() => {
+    }
+    const fetchHotels = () => {
         axios.get(hotelsUrl)
             .then(response => {
                 setHotels(response.data);
             })
             .catch(e => console.log(e));
-    }, []);
-    useEffect(() => {
+    }
+    const fetchBookings = () => {
         axios.get(allBookingsUrl)
             .then(response => {
                 setAllBookings(response.data);
             })
             .catch(e => console.log(e));
+    }
+    useEffect(() => {
+        fetchTrips();
+    }, []);
+    useEffect(() => {
+        fetchHotels();
+    }, []);
+    useEffect(() => {
+        fetchBookings();
     }, []);
 
 
-    const handleBooking = (tripId, email, contact, address) => {
+    const handleBooking = (tripId, destination, email, contact, address) => {
         axios.post(bookingUrl, {
-            tripId, email, contact, address, "approved": false
+            tripId, destination, email, contact, address, "approved": false
         })
             .then(function (response) {
                 if (response.data) {
@@ -72,11 +81,7 @@ let useApi = () => {
                     //if booking is deleted set true else false
                     setBookingDeleted(true);
                     //fetch new data
-                    axios.get(allBookingsUrl)
-                        .then(response => {
-                            setAllBookings(response.data);
-                        })
-                        .catch(e => console.log(e));
+                    fetchBookings();
                 }
                 else {
                     setBookingDeleted(false);
@@ -87,7 +92,7 @@ let useApi = () => {
                 setTripBooked(false);
             });
     }
-    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking };
+    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings };
 }
 
 export default useApi;
