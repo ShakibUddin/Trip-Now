@@ -18,7 +18,7 @@ const customStyles = {
 // binding modal to  appElement 
 Modal.setAppElement("#root");
 
-const Managebookings = () => {
+const ManageBookings = () => {
     const { allBookings, handleDeleteBooking, fetchBookings, handleUpdateBooking } = useData();
     const [modalIsOpen, setIsOpen] = useState(false);
     //clicked booking object
@@ -106,4 +106,4 @@ const Managebookings = () => {
     );
 };
 
-export default Managebookings;
+export default ManageBookings;

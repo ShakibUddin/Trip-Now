@@ -13,7 +13,8 @@ const NavBar = () => {
     ];
 
     user.email && navigation.splice(1, 0, { name: 'My Trips', to: '/mytrips' });
-    user.email && navigation.splice(2, 0, { name: 'Manage Trips', to: '/managetrips' });
+    user.email && navigation.splice(2, 0, { name: 'Manage Bookings', to: '/ManageBookings' });
+    user.email && navigation.splice(3, 0, { name: 'Add Trip', to: '/addtrip' });
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')

@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Switch as RouteSwitch } from 'react-router-dom';
 import AuthProvider from '../../../Contexts/AuthProvider';
 import DataProvider from '../../../Contexts/DataProvider';
 import About from "../../About/About";
+import AddTrip from '../../AddTrip/AddTrip';
 import CheckOut from '../../CheckOut/CheckOut';
 import Home from "../../Home/Home";
-import ManageTrips from '../../ManageTrips/ManageTrips';
+import ManageBookings from '../../ManageBookings/ManageBookings';
 import MyTrips from '../../MyTrips/MyTrips';
 import NotFound from "../../NotFound/NotFound";
 import SignIn from '../../SignIn/SignIn';
@@ -28,7 +29,8 @@ const Navigation = () => {
                         <PrivateRoute exact path="/checkout/:trainingId"><CheckOut></CheckOut></PrivateRoute>
                         <PrivateRoute exact path="/trip/:tripId"><CheckOut></CheckOut></PrivateRoute>
                         <Route exact path="/mytrips"><MyTrips></MyTrips></Route>
-                        <Route exact path="/managetrips"><ManageTrips></ManageTrips></Route>
+                        <Route exact path="/ManageBookings"><ManageBookings></ManageBookings></Route>
+                        <Route exact path="/addtrip"><AddTrip></AddTrip></Route>
                         <Route exact path="/signin"><SignIn></SignIn></Route>
                         <Route exact path="/signup"><SignUp></SignUp></Route>
                         <Route path="*"><NotFound></NotFound></Route>
