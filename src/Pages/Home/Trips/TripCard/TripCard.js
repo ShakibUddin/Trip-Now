@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 const TripCard = (props) => {
     const { _id, name, description, image, price, day, night, breakfast, lunch, dinner } = props.data;
-    console.log(props.data)
     return (
         <div className="lg:w-1/3 md:w-3/4 sm:w-full m-2 my-7 bg-white rounded-md shadow-sm p-4 flex flex-col justify-between">
             <div className='w-full'>

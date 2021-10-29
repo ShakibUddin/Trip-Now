@@ -8,6 +8,7 @@ let useApi = () => {
 
     const [trips, setTrips] = useState([]);
     const [hotels, setHotels] = useState([]);
+    const [tripBooked, setTripBooked] = useState();
 
     const tripsUrl = `${serverUrl}/trips`;
     const hotelsUrl = `${serverUrl}/hotels`;
@@ -31,22 +32,24 @@ let useApi = () => {
 
     const handleBooking = (tripId, email, contact, address) => {
         axios.post(bookingUrl, {
-            tripId, email, contact, address
+            tripId, email, contact, address, "approved": false
         })
             .then(function (response) {
-                console.log(response);
                 if (response.data) {
-                    console.log("Trip Booked Successfully")
+                    console.log(response)
+                    //if trip is booked set true else false
+                    setTripBooked(true);
                 }
                 else {
-                    console.log("Trip Booked Failed.")
+                    setTripBooked(false);
                 }
             })
             .catch(function (error) {
                 console.log(error);
+                setTripBooked(false);
             });
     }
-    return { trips, hotels, handleBooking };
+    return { trips, hotels, handleBooking, tripBooked };
 }
 
 export default useApi;

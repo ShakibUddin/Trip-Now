@@ -22,7 +22,7 @@ const Services = () => {
         }
     ];
     return (
-        <div className="w-full mx-auto flex flex-wrap justify-center absolute services-position">
+        <div className="w-full mx-auto flex flex-wrap justify-center">
 
             {
                 gymServices.map((item, index) => <ServiceCard key={index} data={item}></ServiceCard>)

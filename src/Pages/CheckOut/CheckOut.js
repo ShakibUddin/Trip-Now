@@ -1,24 +1,64 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import Modal from 'react-modal';
 import { useHistory, useParams } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
+import complete from '../../images/complete.png';
+import failed from '../../images/failed.png';
+//modal style
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%) scale(0.65,0.75)',
+    },
+};
+
+// binding modal to  appElement 
+Modal.setAppElement("#root");
 
 const CheckOut = () => {
     const {
         error, user
     } = useAuth();
-    const { trips, handleBooking } = useData();
+    const { trips, handleBooking, tripBooked } = useData();
     const history = useHistory();
     const { tripId } = useParams();
     const redirect_uri = '/home';
     const [trip, setTrip] = useState("");
 
+
     useEffect(() => {
         setTrip(trips.find(trip => trip._id === tripId));
-    }, [trips, tripId]);
+    }, [trips, tripId, setTrip]);
+
+    //check if tripBooked is updated
+    //then open modal
+
+
+    let subtitle = "";
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        // subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+        //after user closes modal rediret to home
+        history.push(redirect_uri);
+    }
 
     const validationSchema = Yup.object().shape({
         contact: Yup.string()
@@ -35,10 +75,8 @@ const CheckOut = () => {
     const formOptions = { resolver: yupResolver(validationSchema) };
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
-        console.log(tripId, user.email, data.contact, data.address);
-        handleBooking(tripId, user.email, data.contact, data.address).then(() => {
-            history.push(redirect_uri);
-        });
+        handleBooking(tripId, user.email, data.contact, data.address);
+        openModal();
     };
 
     return (
@@ -73,6 +111,22 @@ const CheckOut = () => {
 
             <input className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-blue-600 rounded-md text-white cursor-pointer" type="submit" name="SUBMIT" />
             {error && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{error}</p>}
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Welcome"
+            >
+
+                <div className="w-full flex flex-col justify-center items-center">
+                    <div className="mx-auto w-3/12">
+                        <img className="w-full" src={tripBooked ? complete : failed} alt="" />
+                    </div>
+                    {tripBooked ? <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Trip booked successfully</p> : <p className="text-3xl py-10 text-red-600 font-extrabold text-center">Trip booked failed</p>}
+                    {tripBooked ? <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button> : <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button>}
+                </div>
+            </Modal>
         </form>
     );
 };
