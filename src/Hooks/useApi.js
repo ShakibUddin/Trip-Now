@@ -9,6 +9,7 @@ let useApi = () => {
     const [trips, setTrips] = useState([]);
     const [hotels, setHotels] = useState([]);
     const [tripBooked, setTripBooked] = useState();
+    const [locationState, setLocationState] = useState();
 
     const tripsUrl = `${serverUrl}/trips`;
     const hotelsUrl = `${serverUrl}/hotels`;
@@ -49,7 +50,11 @@ let useApi = () => {
                 setTripBooked(false);
             });
     }
-    return { trips, hotels, handleBooking, tripBooked };
+
+    const updateLocationState = (state) => {
+        setLocationState(state);
+    }
+    return { trips, hotels, handleBooking, tripBooked, locationState, updateLocationState };
 }
 
 export default useApi;

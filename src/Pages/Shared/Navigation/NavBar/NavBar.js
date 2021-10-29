@@ -12,6 +12,9 @@ const NavBar = () => {
         { name: 'About', to: '/about' },
     ];
 
+    user.email && navigation.push({ name: 'My Trips', to: '/mytrips' });
+    user.email && navigation.push({ name: 'Manage Trips', to: '/managetrips' });
+
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }

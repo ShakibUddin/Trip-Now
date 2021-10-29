@@ -1,18 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
+import useData from '../../Hooks/useData';
 
 const SignUp = () => {
 
     const {
-        handleFirebaseEmailSignUp, error
+        handleFirebaseEmailSignUp, signupError, user
     } = useAuth();
-    const location = useLocation();
+    const { locationState } = useData();
     const history = useHistory();
-    const redirect_uri = location.state?.from || '/home';
+    const redirect_uri = locationState?.from || '/home';
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}$/;
 
@@ -37,11 +38,18 @@ const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
         if (data.password !== data.confirmPassword) errors.confirmPassword = true;
-        handleFirebaseEmailSignUp(data.email, data.password).then(() => {
-            history.push(redirect_uri);
-        });
+        handleFirebaseEmailSignUp(data.email, data.password);
     };
 
+    useEffect(() => {
+        if (user.email) {
+            redirectUserAfterSignUp();
+        }
+    }, [user]);
+
+    const redirectUserAfterSignUp = () => {
+        history.push(redirect_uri);
+    }
     return (
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
             <p className="text-4xl py-10 font-extrabold">Register</p>
@@ -55,8 +63,8 @@ const SignUp = () => {
             {errors.confirmPassword && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.confirmPassword?.message}</p>}
 
             <input className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-blue-600 rounded-md text-white cursor-pointer" type="submit" name="SIGNUP" />
-            {error && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{error}</p>}
-            <p className="py-5">Already have an account? <Link className="text-blue-800" to='/signin'>Login</Link></p>
+            {signupError && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{signupError}</p>}
+            <p className="py-5 text-center">Already have an account? <Link className="text-blue-800" to='/signin'>Login</Link></p>
         </form>
     );
 };
