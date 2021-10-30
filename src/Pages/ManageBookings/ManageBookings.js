@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Loader from "react-loader-spinner";
 import Modal from 'react-modal';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useData from '../../Hooks/useData';
+
 //modal style
 const customStyles = {
     content: {
@@ -42,16 +44,27 @@ const ManageBookings = () => {
         setIsOpen(false);
         //after user closes modal rediret to home
     }
+    if (allBookings.length === 0) return (<div className='w-full flex justify-center items-center h-96'>
+
+        <Loader
+            type="Bars"
+            color="#3386FF"
+            height={100}
+            width={100}
+        />
+
+    </div>);
     return (
-        <div className="w-full p-2 h-screen">
+        <div className="w-full p-2">
             <Table>
                 <Thead>
                     <Tr className="bg-blue-600">
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">TripId</Th>
+                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Name</Th>
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">Email</Th>
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">Contact</Th>
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">Address</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Approved</Th>
+                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Status</Th>
                         <Th className="text-center text-white font-bold text-sm uppercase py-3"></Th>
                     </Tr>
                 </Thead>
@@ -59,11 +72,12 @@ const ManageBookings = () => {
                     {
                         allBookings.map(booking =>
                             <Tr key={booking._id} className="bg-white">
-                                <Td className="text-gray-400 text-xs text-center py-3">{booking.tripId}({booking.destination})</Td>
-                                <Td className="text-gray-400 text-xs text-center py-3">{booking.email}</Td>
-                                <Td className="text-gray-400 text-xs text-center py-3">{booking.contact}</Td>
-                                <Td className="text-gray-400 text-xs text-center py-3">{booking.address}</Td>
-                                <Td className="text-gray-400 text-xs text-center py-3">{booking.approved ? "Yes" : "No"}</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.tripId}({booking.destination})</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.name}</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.email}</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.contact}</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.address}</Td>
+                                <Td className="text-gray-600 text-xs text-center py-3">{booking.status}</Td>
                                 <Td>
                                     <div className="flex justify-center">
                                         <button className="w-2/4 mx-1 p-2 bg-green-500 text-white" onClick={() => {
@@ -92,7 +106,7 @@ const ManageBookings = () => {
             >
 
                 <div className="w-full flex flex-col justify-center items-center">
-                    <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Are you sure you want to delete {booking.tripId}({booking.destination}) of {booking.email}?</p>
+                    <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Are you sure you want to delete {booking.tripId}({booking.destination}) of {booking.name}?</p>
                     <div className="w-full flex justify-center">
                         <button className="w-1/3 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={() => {
                             closeModal();

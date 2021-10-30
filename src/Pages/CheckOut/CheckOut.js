@@ -8,6 +8,7 @@ import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
 import complete from '../../images/complete.png';
 import failed from '../../images/failed.png';
+
 //modal style
 const customStyles = {
     content: {
@@ -60,10 +61,14 @@ const CheckOut = () => {
     }
 
     const validationSchema = Yup.object().shape({
+        name: Yup.string()
+            .required('Name is required')
+            .min(4, 'Name must be at least 6 characters')
+            .max(30, 'Name must be maximum 30 characters'),
         contact: Yup.string()
             .required('Contact is required')
-            .min(4, 'Contact must be at least 6 characters')
-            .max(30, 'Contact must be maximum 15 characters'),
+            .min(6, 'Contact must be at least 6 characters')
+            .max(15, 'Contact must be maximum 15 characters'),
         address: Yup.string()
             .required('Address is required')
             .min(4, 'Address must be at least 4 characters')
@@ -74,7 +79,7 @@ const CheckOut = () => {
     const formOptions = { resolver: yupResolver(validationSchema) };
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
-        handleBooking(tripId, trip.name, user.email, data.contact, data.address);
+        handleBooking(tripId, trip.name, data.name, user.email, data.contact, data.address);
         openModal();
     };
 
@@ -99,7 +104,11 @@ const CheckOut = () => {
                     {trip.dinner && <p className="bg-green-300 p-2 rounded-lg m-2 text-sm text-black">Dinner</p>}
                 </div>
             </div>
-            <input disabled className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="email" placeholder="Enter email" value={user.email} {...register("email")} />
+
+            <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="text" placeholder="Enter name" {...register("name")} value={user.name} disabled={user.name ? true : false} />
+            {errors.name && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.name?.message}</p>}
+
+            <input disabled={true} className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="email" placeholder="Enter email" value={user.email} {...register("email")} />
 
             <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="number" placeholder="Enter contact number" {...register("contact")} />
             {errors.contact && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.contact?.message}</p>}
@@ -122,7 +131,8 @@ const CheckOut = () => {
                     <div className="mx-auto w-3/12">
                         <img className="w-full" src={tripBooked ? complete : failed} alt="" />
                     </div>
-                    {tripBooked ? <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Trip booked successfully</p> : <p className="text-3xl py-10 text-red-600 font-extrabold text-center">Trip booked failed</p>}
+                    {tripBooked === 1 && <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Trip booked successfully</p>}
+                    {tripBooked === 0 && <p className="text-3xl py-10 text-red-600 font-extrabold text-center">Trip booked failed</p>}
                     <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button>
                 </div>
             </Modal>
