@@ -7,6 +7,7 @@ let useApi = () => {
     const serverUrl = development ? developmentUrl : productionUrl;
 
     const [trips, setTrips] = useState([]);
+    const [popularPlaces, setPopularPlaces] = useState([]);
     const [hotels, setHotels] = useState([]);
     const [allBookings, setAllBookings] = useState([]);
     const [tripBooked, setTripBooked] = useState();
@@ -14,6 +15,7 @@ let useApi = () => {
 
     const tripsUrl = `${serverUrl}/trips`;
     const hotelsUrl = `${serverUrl}/hotels`;
+    const popularPlacesUrl = `${serverUrl}/popularplaces`;
     const bookingUrl = `${serverUrl}/booking`;
     const allBookingsUrl = `${serverUrl}/allbookings`;
     const deleteBookingUrl = `${serverUrl}/delete/booking`;//need to add _id
@@ -23,6 +25,13 @@ let useApi = () => {
         axios.get(tripsUrl)
             .then(response => {
                 setTrips(response.data);
+            })
+            .catch(e => console.log(e));
+    }
+    const fetchPopularPlaces = () => {
+        axios.get(popularPlacesUrl)
+            .then(response => {
+                setPopularPlaces(response.data);
             })
             .catch(e => console.log(e));
     }
@@ -42,6 +51,9 @@ let useApi = () => {
     }
     useEffect(() => {
         fetchTrips();
+    }, []);
+    useEffect(() => {
+        fetchPopularPlaces();
     }, []);
     useEffect(() => {
         fetchHotels();
@@ -99,7 +111,7 @@ let useApi = () => {
                 console.log(error);
             });
     }
-    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking };
+    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces };
 }
 
 export default useApi;
