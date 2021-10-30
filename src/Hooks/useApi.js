@@ -11,9 +11,12 @@ let useApi = () => {
     const [hotels, setHotels] = useState([]);
     const [allBookings, setAllBookings] = useState([]);
     const [tripBooked, setTripBooked] = useState(-1);
+    const [tripAdded, setTripAdded] = useState(-1);
+    const [addTripError, setAddTripError] = useState("");
     const [locationState, setLocationState] = useState();
 
     const tripsUrl = `${serverUrl}/trips`;
+    const addTripUrl = `${serverUrl}/trip`;
     const hotelsUrl = `${serverUrl}/hotels`;
     const popularPlacesUrl = `${serverUrl}/popularplaces`;
     const bookingUrl = `${serverUrl}/booking`;
@@ -49,19 +52,29 @@ let useApi = () => {
             })
             .catch(e => console.log(e));
     }
-    useEffect(() => {
-        fetchTrips();
-    }, []);
-    useEffect(() => {
-        fetchPopularPlaces();
-    }, []);
-    useEffect(() => {
-        fetchHotels();
-    }, []);
-    useEffect(() => {
-        fetchBookings();
-    }, []);
 
+    const handleAddTrip = ({ name, description, imageUrl, price, day, night, breakfast, lunch, dinner }) => {
+        axios.post(addTripUrl, {
+            name, description, image: imageUrl, price, day, night, breakfast, lunch, dinner
+        })
+            .then(function (response) {
+                if (response.data) {
+                    console.log(response)
+                    //if trip is added set 1 else 0
+                    fetchTrips();
+                    setTripAdded(1);
+                    setAddTripError("");
+                }
+                else {
+                    setTripAdded(0);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                setTripAdded(0);
+                setAddTripError(error);
+            });
+    }
 
     const handleBooking = (tripId, destination, name, email, contact, address) => {
         axios.post(bookingUrl, {
@@ -69,7 +82,7 @@ let useApi = () => {
         })
             .then(function (response) {
                 if (response.data) {
-                    //if trip is booked set true else false
+                    //if trip is booked set 1 else 0
                     setTripBooked(1);
                 }
                 else {
@@ -111,7 +124,21 @@ let useApi = () => {
                 console.log(error);
             });
     }
-    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces };
+
+    useEffect(() => {
+        fetchTrips();
+    }, []);
+    useEffect(() => {
+        fetchPopularPlaces();
+    }, []);
+    useEffect(() => {
+        fetchHotels();
+    }, []);
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
+    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, tripAdded, addTripError };
 }
 
 export default useApi;

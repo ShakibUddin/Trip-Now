@@ -124,7 +124,7 @@ const CheckOut = () => {
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
-                contentLabel="Welcome"
+                contentLabel="Trip Now"
             >
 
                 <div className="w-full flex flex-col justify-center items-center">
