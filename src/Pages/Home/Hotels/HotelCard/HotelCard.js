@@ -4,26 +4,24 @@ import StarRatings from 'react-star-ratings';
 const HotelCard = (props) => {
     const { name, rating, location, price, image } = props.data;
     return (
-        <div className="lg:w-1/4 md:w-2/4 sm:w-3/4 p-4 bg-white rounded-md shadow-sm flex flex-col justify-between m-3">
+        <div className="lg:w-1/4 md:w-2/4 sm:w-11/12 p-4  rounded-md shadow-sm flex flex-col justify-between m-3 relative bg-blend-multiply bg-gray-500" style={{ backgroundImage: `url(${image})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", minWidth: "250px", minHeight: "350px" }}>
             <div className='w-full'>
-                <div className="w-full h-60 rounded-lg overflow-hidden">
-                    <img src={image} className="w-full h-full" alt="" />
-                </div>
-                <div className="py-4">
-                    <p className="text-gray-700 text-3xl font-bold">{name}</p>
-                    <p className="text-gray-400">
-                        {location}
-                    </p>
+                <p className="text-white absolute top-0 left-0 font-bold text-sm p-2">
+                    {location}
+                </p>
+                <div className="absolute bottom-0 left-0 flex flex-col items-start p-2">
                     <StarRatings
+                        className="text-left my-2"
                         rating={parseFloat(rating)}
-                        starDimension="25px"
+                        starDimension="30px"
                         starRatedColor="orange"
                         starSpacing="5px"
                     />
+                    <p className="text-white text-xl font-bold my-2">{name}</p>
+                    <p className="text-white bg-red-600 rounded-sm p-2 text-xl my-2">
+                        From {price} Taka
+                    </p>
                 </div>
-                <p className="text-yellow-500 font-bold text-xl">
-                    From {price} Taka
-                </p>
             </div>
         </div>
     );

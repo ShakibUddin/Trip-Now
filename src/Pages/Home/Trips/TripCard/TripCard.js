@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 const TripCard = (props) => {
     const { _id, name, description, image, price, day, night, breakfast, lunch, dinner } = props.data;
     return (
-        <div className="lg:w-1/3 md:w-3/5 sm:w-full m-2 my-7 bg-white rounded-md shadow-sm p-4 flex flex-col justify-between">
+        <div className="lg:w-1/3 md:w-3/5 sm:w-full max-w-sm rounded overflow-hidden shadow-lg m-2 flex justify-between flex-col pb-2">
             <div className='w-full'>
-                <div className="w-full h-60 rounded-lg overflow-hidden">
+                <div className="w-full h-60">
                     <img src={image} className="w-full h-full" alt="" />
                 </div>
-                <div className="py-4">
+                <div className="p-4">
                     <p className="text-gray-700 text-3xl font-bold">{name}</p>
                     <p className="text-gray-400">
                         {description}
@@ -25,9 +25,9 @@ const TripCard = (props) => {
                     <p>{day} Days, {night} Nights</p>
                 </div>
                 <div className="w-full flex justify-center">
-                    {breakfast && <p className="bg-yellow-300 p-2 rounded-lg m-2 text-sm text-black">Breakfast</p>}
-                    {lunch && <p className="bg-red-300 p-2 rounded-lg m-2 text-sm text-black">Lunch</p>}
-                    {dinner && <p className="bg-green-300 p-2 rounded-lg m-2 text-sm text-black">Dinner</p>}
+                    {breakfast && <p className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Breakfast</p>}
+                    {lunch && <p className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Lunch</p>}
+                    {dinner && <p className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Dinner</p>}
                 </div>
 
                 <Link className="w-2/3" to={`/trip/${_id}`}>
