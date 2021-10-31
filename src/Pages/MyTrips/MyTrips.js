@@ -31,13 +31,13 @@ const MyTrips = () => {
 
     useEffect(() => {
         fetchBookings();
-    }, []);
+    }, [fetchBookings]);
 
     useEffect(() => {
         //filtering users trips/bookings from all bookings
         const myTrips = allBookings.filter(booking => booking.email === user.email);
         setTrips(myTrips);
-    }, [allBookings]);
+    }, [allBookings, user.email]);
 
 
 

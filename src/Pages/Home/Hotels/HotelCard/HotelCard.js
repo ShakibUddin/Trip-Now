@@ -2,11 +2,11 @@ import React from 'react';
 import StarRatings from 'react-star-ratings';
 
 const HotelCard = (props) => {
-    const { _id, name, rating, location, price, image } = props.data;
+    const { name, rating, location, price, image } = props.data;
     return (
         <div className="lg:w-1/4 md:w-2/4 sm:w-3/4 p-4 bg-white rounded-md shadow-sm flex flex-col justify-between m-3">
             <div className='w-full'>
-                <div className="w-full h-60 rounded-lg overflow-hidden overflow-hidden">
+                <div className="w-full h-60 rounded-lg overflow-hidden">
                     <img src={image} className="w-full h-full" alt="" />
                 </div>
                 <div className="py-4">

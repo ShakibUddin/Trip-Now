@@ -28,7 +28,7 @@ const ManageBookings = () => {
 
     useEffect(() => {
         fetchBookings();
-    }, []);
+    }, [fetchBookings]);
 
     function openModal(booking) {
         setBooking(booking);

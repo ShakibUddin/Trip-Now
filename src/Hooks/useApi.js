@@ -3,7 +3,7 @@ import { developmentUrl, productionUrl } from "../Constants/Constants";
 const axios = require('axios').default;
 
 let useApi = () => {
-    const development = true;
+    const development = false;
     const serverUrl = development ? developmentUrl : productionUrl;
 
     const [trips, setTrips] = useState([]);

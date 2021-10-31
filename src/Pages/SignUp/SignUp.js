@@ -45,7 +45,7 @@ const SignUp = () => {
         if (user.email) {
             redirectUserAfterSignUp();
         }
-    }, [user]);
+    }, [user, redirectUserAfterSignUp]);
 
     const redirectUserAfterSignUp = () => {
         history.push(redirect_uri);

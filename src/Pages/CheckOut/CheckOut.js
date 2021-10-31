@@ -87,7 +87,7 @@ const CheckOut = () => {
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
 
             <p className="text-4xl py-10 font-extrabold">Checkout</p>
-            <div className="lg:w-2/4 md:w-2/4 w-full  h-40 rounded-lg overflow-hidden">
+            <div className="lg:w-2/4 md:w-2/4 sm:w-3/4  h-48 rounded-lg overflow-hidden">
                 <img src={trip.image} className="w-full h-full" alt="" />
             </div>
             <div className="py-4">
@@ -105,7 +105,7 @@ const CheckOut = () => {
                 </div>
             </div>
 
-            <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="text" placeholder="Enter name" {...register("name")} value={user.name} disabled={user.name ? true : false} />
+            <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="text" placeholder="Enter name" {...register("name")} disabled={user.name ? true : false} />
             {errors.name && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.name?.message}</p>}
 
             <input disabled={true} className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md bg-white" type="email" placeholder="Enter email" value={user.email} {...register("email")} />
