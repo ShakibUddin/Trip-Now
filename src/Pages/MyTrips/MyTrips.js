@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Loader from "react-loader-spinner";
-import Modal from 'react-modal';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import Swal from 'sweetalert2';
 import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
 
-//modal style
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%) scale(0.45,0.55)',
-    },
-};
-
-// binding modal to  appElement 
-Modal.setAppElement("#root");
 
 const MyTrips = () => {
     const { allBookings, handleDeleteBooking, fetchBookings } = useData();
     const { user } = useAuth();
-    const [modalIsOpen, setIsOpen] = useState(false);
     //clicked booking object
-    const [booking, setBooking] = useState({});
     const [myTrips, setTrips] = useState([]);
 
     useEffect(() => {
@@ -40,21 +24,27 @@ const MyTrips = () => {
     }, [allBookings, user.email]);
 
 
-
     function openModal(booking) {
-        setBooking(booking);
-        setIsOpen(true);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `Are you sure you want to delete ${booking.tripId}(${booking.destination}) of ${booking.name}? You won't be able to revert this!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDeleteBooking(booking._id);
+                Swal.fire(
+                    'Deleted!',
+                    'Booking has been deleted.',
+                    'success'
+                )
+            }
+        })
     }
 
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // subtitle.style.color = '#f00';
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-        //after user closes modal rediret to home
-    }
     if (myTrips.length === 0) return (<div className='w-full flex justify-center items-center h-96'>
 
         <Loader
@@ -105,25 +95,6 @@ const MyTrips = () => {
                     }
                 </Tbody>
             </Table>
-            <Modal
-                isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Trip Now"
-            >
-
-                <div className="w-full flex flex-col justify-center items-center">
-                    <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Are you sure you want to delete {booking.tripId}({booking.destination}) of {booking.name}?</p>
-                    <div className="w-full flex justify-center">
-                        <button className="w-1/3 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={() => {
-                            closeModal();
-                            handleDeleteBooking(booking._id);
-                        }}>Yes</button>
-                        <button className="w-1/3 mx-auto px-4 p-2 bg-green-600 rounded-md text-white cursor-pointer" onClick={closeModal}>No</button>
-                    </div>
-                </div>
-            </Modal>
         </div>
     );
 };

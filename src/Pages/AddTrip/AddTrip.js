@@ -1,48 +1,33 @@
 import { faEdit, faImage, faMapMarkerAlt, faMoneyBillAlt, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from "react-hook-form";
-import Modal from 'react-modal';
+import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 import useData from '../../Hooks/useData';
-import complete from '../../images/complete.png';
-import failed from '../../images/failed.png';
-//modal style
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%) scale(0.65,0.75)',
-    },
-};
-
-// binding modal to  appElement 
-Modal.setAppElement("#root");
 
 const AddTrip = () => {
 
     const {
         tripAdded, handleAddTrip, addTripError
     } = useData();
+    const history = useHistory();
 
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const redirect_uri = '/home';
 
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // subtitle.style.color = '#f00';
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-        //after user closes modal rediret to home
+    function openModal(success) {
+        Swal.fire({
+            icon: success === 1 ? 'success' : "error",
+            title: success === 1 ? 'Trip Added Successfully' : 'Something went wrong!',
+            showConfirmButton: false,
+            showCloseButton: true
+        }).then((result) => {
+            if (result.isDismissed) {
+                history.push(redirect_uri)
+            }
+        })
     }
 
     const imageUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
@@ -86,7 +71,7 @@ const AddTrip = () => {
 
     const onSubmit = data => {
         handleAddTrip(data);
-        openModal();
+        openModal(tripAdded);
         reset();
     };
 
@@ -162,24 +147,7 @@ const AddTrip = () => {
             {/* submit button */}
             <input className="w-full mx-auto px-4 p-2 bg-blue-600 rounded-md text-white cursor-pointer" type="submit" name="ADD Trip" />
             {addTripError && <p className="w-full text-start text-red-600 font-bold">{addTripError}</p>}
-            <Modal
-                isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Trip Now"
-            >
 
-                <div className="w-full flex flex-col justify-center items-center">
-                    <div className="mx-auto w-3/12">
-                        <img className="w-full" src={tripAdded ? complete : failed} alt="" />
-                    </div>
-
-                    {tripAdded === 1 && <p className="text-3xl py-10 text-green-600 font-extrabold text-center">Trip added successfully</p>}
-                    {tripAdded === 0 && <p className="text-3xl py-10 text-red-600 font-extrabold text-center">Trip addition failed</p>}
-                    <button className="lg:w-2/4 w-3/4 mx-auto px-4 p-2 bg-red-600 rounded-md text-white cursor-pointer" onClick={closeModal}>close</button>
-                </div>
-            </Modal>
         </form>
     );
 };
