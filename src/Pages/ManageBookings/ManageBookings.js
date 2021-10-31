@@ -13,7 +13,7 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        transform: 'translate(-50%, -50%) scale(0.65,0.75)',
+        transform: 'translate(-50%, -50%) scale(0.45,0.55)',
     },
 };
 
