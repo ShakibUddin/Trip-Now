@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const TripCard = (props) => {
     const { _id, name, description, image, price, day, night, breakfast, lunch, dinner } = props.data;
     return (
-        <div className="lg:w-1/3 md:w-3/5 sm:w-full max-w-sm rounded overflow-hidden shadow-lg m-2 flex justify-between flex-col pb-2">
+        <div className="lg:w-1/4 md:w-2/5 sm:w-full rounded overflow-hidden shadow-lg m-2 flex justify-between flex-col pb-2">
             <div className='w-full'>
                 <div className="w-full h-60">
                     <img src={image} className="w-full h-full" alt="" />
