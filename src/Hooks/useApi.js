@@ -10,8 +10,6 @@ let useApi = () => {
     const [popularPlaces, setPopularPlaces] = useState([]);
     const [hotels, setHotels] = useState([]);
     const [allBookings, setAllBookings] = useState([]);
-    const [tripBooked, setTripBooked] = useState(-1);
-    const [tripAdded, setTripAdded] = useState(-1);
     const [addTripError, setAddTripError] = useState("");
     const [locationState, setLocationState] = useState();
 
@@ -61,16 +59,11 @@ let useApi = () => {
                 if (response.data) {
                     //if trip is added set 1 else 0
                     fetchTrips();
-                    setTripAdded(1);
                     setAddTripError("");
-                }
-                else {
-                    setTripAdded(0);
                 }
             })
             .catch(function (error) {
                 console.log(error);
-                setTripAdded(0);
                 setAddTripError(error);
             });
     }
@@ -80,17 +73,10 @@ let useApi = () => {
             tripId, destination, name, email, contact, address, "status": "Pending"
         })
             .then(function (response) {
-                if (response.data) {
-                    //if trip is booked set 1 else 0
-                    setTripBooked(1);
-                }
-                else {
-                    setTripBooked(0);
-                }
+
             })
             .catch(function (error) {
                 console.log(error);
-                setTripBooked(0);
             });
     }
 
@@ -137,7 +123,7 @@ let useApi = () => {
         fetchBookings();
     }, [fetchBookings]);
 
-    return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, tripAdded, addTripError };
+    return { trips, hotels, allBookings, handleBooking, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, addTripError };
 }
 
 export default useApi;

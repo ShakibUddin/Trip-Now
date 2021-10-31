@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
-import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
@@ -12,7 +11,7 @@ const CheckOut = () => {
     const {
         error, user
     } = useAuth();
-    const { trips, handleBooking, tripBooked } = useData();
+    const { trips, handleBooking } = useData();
     const history = useHistory();
     const { tripId } = useParams();
     const redirect_uri = '/home';
@@ -22,19 +21,6 @@ const CheckOut = () => {
     useEffect(() => {
         setTrip(trips.find(trip => trip._id === tripId));
     }, [trips, tripId, setTrip]);
-
-    function openModal(success) {
-        Swal.fire({
-            icon: success === 1 ? 'success' : "error",
-            title: success === 1 ? 'Trip Booked Successfully' : 'Something went wrong!',
-            showConfirmButton: false,
-            showCloseButton: true
-        }).then((result) => {
-            if (result.isDismissed) {
-                history.push(redirect_uri)
-            }
-        })
-    }
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -56,7 +42,7 @@ const CheckOut = () => {
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
         handleBooking(tripId, trip.name, data.name, user.email, data.contact, data.address);
-        openModal(tripBooked);
+        history.push(redirect_uri);
     };
 
     return (

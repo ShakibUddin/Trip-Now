@@ -4,31 +4,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
-import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 import useData from '../../Hooks/useData';
 
 const AddTrip = () => {
 
     const {
-        tripAdded, handleAddTrip, addTripError
+        handleAddTrip, addTripError
     } = useData();
     const history = useHistory();
 
     const redirect_uri = '/home';
-
-    function openModal(success) {
-        Swal.fire({
-            icon: success === 1 ? 'success' : "error",
-            title: success === 1 ? 'Trip Added Successfully' : 'Something went wrong!',
-            showConfirmButton: false,
-            showCloseButton: true
-        }).then((result) => {
-            if (result.isDismissed) {
-                history.push(redirect_uri)
-            }
-        })
-    }
 
     const imageUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
@@ -71,7 +57,7 @@ const AddTrip = () => {
 
     const onSubmit = data => {
         handleAddTrip(data);
-        openModal(tripAdded);
+        history.push(redirect_uri);
         reset();
     };
 
