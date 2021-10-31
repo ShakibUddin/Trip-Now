@@ -68,7 +68,7 @@ const AddTrip = () => {
             {/* name of destination */}
             <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
                 <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faMapMarkerAlt} />
-                <input className="w-11/12 p-3 my-2 rounded-md border-0 outline-none" type="text" placeholder="Enter Destination" pref {...register("name")} />
+                <input className="w-11/12 p-3 my-2 rounded-md border-0 outline-none" type="text" placeholder="Enter Destination" {...register("name")} />
             </div>
             {errors.name && <p className="w-full text-start text-red-600 font-bold">{errors.name?.message}</p>}
 
