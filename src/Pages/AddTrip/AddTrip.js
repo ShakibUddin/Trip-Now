@@ -1,3 +1,5 @@
+import { faEdit, faImage, faMapMarkerAlt, faMoneyBillAlt, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
@@ -89,57 +91,77 @@ const AddTrip = () => {
     };
 
     return (
-        <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
-            <p className="text-4xl py-10 font-extrabold">Add A New Trip</p>
+        <form className="lg:w-4/12 md:w-8/12 sm:w-full mx-auto p-2 m-2 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
+            <p className="text-4xl py-10 font-extrabold text-center">Add A New Trip</p>
 
             {/* name of destination */}
-            <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Destination" {...register("name")} />
-            {errors.name && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.name?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faMapMarkerAlt} />
+                <input className="w-11/12 p-3 my-2 rounded-md border-0 outline-none" type="text" placeholder="Enter Destination" pref {...register("name")} />
+            </div>
+            {errors.name && <p className="w-full text-start text-red-600 font-bold">{errors.name?.message}</p>}
 
             {/* trip description */}
-            <textarea className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Description" {...register("description")} />
-            {errors.description && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.description?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faEdit} />
+                <textarea className="w-11/12 p-3 my-2 border-0 outline-none rounded-md" type="text" placeholder="Enter Description" {...register("description")} />
+            </div>
+            {errors.description && <p className="w-full text-start text-red-600 font-bold">{errors.description?.message}</p>}
 
             {/* image url */}
-            <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Image Url" {...register("imageUrl")} />
-            {errors.imageUrl && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.imageUrl?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faImage} />
+                <input className="w-11/12 p-3 my-2 border-0 outline-none rounded-md" type="text" placeholder="Enter Image Url" {...register("imageUrl")} />
+            </div>
+            {errors.imageUrl && <p className="w-full text-start text-red-600 font-bold">{errors.imageUrl?.message}</p>}
 
             {/* number of days in trip */}
-            <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="number" placeholder="Enter Total Days" {...register("day")} />
-            {errors.day && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.day?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faSun} />
+                <input className="w-11/12 p-3 my-2 border-0 outline-none rounded-md" type="number" placeholder="Enter Total Days" {...register("day")} />
+            </div>
+            {errors.day && <p className="w-full text-start text-red-600 font-bold">{errors.day?.message}</p>}
 
             {/* number of nights in trip */}
-            <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="number" placeholder="Enter Total Nights" {...register("night")} />
-            {errors.night && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.night?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faMoon} />
+                <input className="w-11/12 p-3 my-2 border-0 outline-none rounded-md" type="number" placeholder="Enter Total Nights" {...register("night")} />
+            </div>
+            {errors.night && <p className="w-full text-start text-red-600 font-bold">{errors.night?.message}</p>}
 
+            {/* select meal */}
             <p className="text-2xl my-2 font-bold">Select Meal</p>
-            <div className="flex flex-wrap lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md bg-white justify-evenly ">
+            <div className="flex w-full p-3 my-2 border-2 outline-none rounded-md bg-white justify-center ">
                 {/* is breakfast included in trip */}
-                <div style={{ minWidth: "100px" }} className="w-1/5 m-2 flex justify-start items-center">
+                <div style={{ minWidth: "80px" }} className="w-1/5 m-2 flex justify-center items-center">
                     <input type="checkbox" name="breakfast" {...register("breakfast")} />
                     <label htmlFor="breakfast">Breakfast</label>
                 </div>
 
                 {/* is lunch included in trip */}
-                <div style={{ minWidth: "100px" }} className="w-1/5 m-2 flex justify-start items-center">
+                <div style={{ minWidth: "80px" }} className="w-1/5 m-2 flex justify-center items-center">
                     <input type="checkbox" name="lunch" {...register("lunch")} />
                     <label htmlFor="lunch">Lunch</label>
                 </div>
 
                 {/* is dinner included in trip */}
-                <div style={{ minWidth: "100px" }} className="w-1/5 m-2 flex justify-start items-center">
+                <div style={{ minWidth: "80px" }} className="w-1/5 m-2 flex justify-center items-center">
                     <input type="checkbox" name="dinner" {...register("dinner")} />
                     <label htmlFor="dinner">Dinner</label>
                 </div>
             </div>
 
             {/* price */}
-            <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="number" placeholder="Enter Price" {...register("price")} />
-            {errors.price && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.price?.message}</p>}
+            <div className="w-full flex justify-between bg-white items-center border-2 rounded-md my-2">
+                <FontAwesomeIcon className="w-1/12 text-2xl text-center mx-auto" icon={faMoneyBillAlt} />
+                <input className="w-11/12 p-3 my-2 border-0 outline-none rounded-md" type="number" placeholder="Enter Price" {...register("price")} />
+            </div>
+            {errors.price && <p className="w-full text-start text-red-600 font-bold">{errors.price?.message}</p>}
+
 
             {/* submit button */}
-            <input className="lg:w-3/5 w-3/4 mx-auto px-4 p-2 bg-blue-600 rounded-md text-white cursor-pointer" type="submit" name="ADD Trip" />
-            {addTripError && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{addTripError}</p>}
+            <input className="w-full mx-auto px-4 p-2 bg-blue-600 rounded-md text-white cursor-pointer" type="submit" name="ADD Trip" />
+            {addTripError && <p className="w-full text-start text-red-600 font-bold">{addTripError}</p>}
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
