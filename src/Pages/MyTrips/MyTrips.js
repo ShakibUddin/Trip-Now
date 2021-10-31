@@ -92,7 +92,7 @@ const MyTrips = () => {
                                 <Td>
                                     <div className="flex justify-center">
 
-                                        <button className="w-2/4 mx-1 p-2 bg-red-500 text-white" onClick={() => {
+                                        <button className="w-full mx-1 p-2 bg-red-500 text-white" onClick={() => {
                                             // passing the clickd booking object
                                             openModal(booking);
                                         }}>

@@ -43,7 +43,7 @@ const AddTrip = () => {
         //after user closes modal rediret to home
     }
 
-    const imageUrl = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+    const imageUrl = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -83,7 +83,6 @@ const AddTrip = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions);
 
     const onSubmit = data => {
-        console.log(data);
         handleAddTrip(data);
         openModal();
         reset();
@@ -113,7 +112,7 @@ const AddTrip = () => {
             <input className="lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md" type="number" placeholder="Enter Total Nights" {...register("night")} />
             {errors.night && <p className="lg:w-3/5 w-3/4 text-start text-red-600 font-bold">{errors.night?.message}</p>}
 
-            <p>Select Meal</p>
+            <p className="text-2xl my-2 font-bold">Select Meal</p>
             <div className="flex flex-wrap lg:w-3/5 w-3/4 p-3 my-2 border-2 rounded-md bg-white justify-evenly ">
                 {/* is breakfast included in trip */}
                 <div style={{ minWidth: "100px" }} className="w-1/5 m-2 flex justify-start items-center">

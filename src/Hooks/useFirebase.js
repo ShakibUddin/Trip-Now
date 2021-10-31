@@ -60,7 +60,7 @@ const useFirebase = () => {
             }
             setIsLoading(false);
         })
-    }, []);
+    }, [auth]);
 
     const sendEmailVerificationLink = () => {
         return sendEmailVerification(auth.currentUser);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { developmentUrl, productionUrl } from "../Constants/Constants";
 const axios = require('axios').default;
 
@@ -24,34 +24,34 @@ let useApi = () => {
     const deleteBookingUrl = `${serverUrl}/delete/booking`;//need to add _id
     const updateBookingUrl = `${serverUrl}/update/booking`;//need to add _id
 
-    const fetchTrips = () => {
+    const fetchTrips = useCallback(() => {
         axios.get(tripsUrl)
             .then(response => {
                 setTrips(response.data);
             })
             .catch(e => console.log(e));
-    }
-    const fetchPopularPlaces = () => {
+    }, [tripsUrl])
+    const fetchPopularPlaces = useCallback(() => {
         axios.get(popularPlacesUrl)
             .then(response => {
                 setPopularPlaces(response.data);
             })
             .catch(e => console.log(e));
-    }
-    const fetchHotels = () => {
+    }, [popularPlacesUrl])
+    const fetchHotels = useCallback(() => {
         axios.get(hotelsUrl)
             .then(response => {
                 setHotels(response.data);
             })
             .catch(e => console.log(e));
-    }
-    const fetchBookings = () => {
+    }, [hotelsUrl])
+    const fetchBookings = useCallback(() => {
         axios.get(allBookingsUrl)
             .then(response => {
                 setAllBookings(response.data);
             })
             .catch(e => console.log(e));
-    }
+    }, [allBookingsUrl])
 
     const handleAddTrip = ({ name, description, imageUrl, price, day, night, breakfast, lunch, dinner }) => {
         axios.post(addTripUrl, {
@@ -59,7 +59,6 @@ let useApi = () => {
         })
             .then(function (response) {
                 if (response.data) {
-                    console.log(response)
                     //if trip is added set 1 else 0
                     fetchTrips();
                     setTripAdded(1);
@@ -127,16 +126,16 @@ let useApi = () => {
 
     useEffect(() => {
         fetchTrips();
-    }, []);
+    }, [fetchTrips]);
     useEffect(() => {
         fetchPopularPlaces();
-    }, []);
+    }, [fetchPopularPlaces]);
     useEffect(() => {
         fetchHotels();
-    }, []);
+    }, [fetchHotels]);
     useEffect(() => {
         fetchBookings();
-    }, []);
+    }, [fetchBookings]);
 
     return { trips, hotels, allBookings, handleBooking, tripBooked, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, tripAdded, addTripError };
 }

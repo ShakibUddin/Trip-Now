@@ -26,9 +26,9 @@ const SignIn = () => {
 
     useEffect(() => {
         if (user.email) {
-            redirectUserAfterSignIn();
+            history.push(redirect_uri);
         }
-    }, [user]);
+    }, [history, redirect_uri, user]);
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .required('Email is required')
@@ -46,9 +46,6 @@ const SignIn = () => {
         handleFirebaseEmailSignIn(data.email, data.password);
     };
 
-    const redirectUserAfterSignIn = () => {
-        history.push(redirect_uri);
-    }
 
     return (
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col justify-center items-center" onSubmit={handleSubmit(onSubmit)}>

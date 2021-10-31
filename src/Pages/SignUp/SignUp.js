@@ -40,16 +40,12 @@ const SignUp = () => {
         if (data.password !== data.confirmPassword) errors.confirmPassword = true;
         handleFirebaseEmailSignUp(data.email, data.password);
     };
-
     useEffect(() => {
         if (user.email) {
-            redirectUserAfterSignUp();
+            history.push(redirect_uri);
         }
-    }, [user, redirectUserAfterSignUp]);
+    }, [history, redirect_uri, user]);
 
-    const redirectUserAfterSignUp = () => {
-        history.push(redirect_uri);
-    }
     return (
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
             <p className="text-4xl py-10 font-extrabold">Register</p>

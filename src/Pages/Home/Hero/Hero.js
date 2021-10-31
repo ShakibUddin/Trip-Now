@@ -6,7 +6,7 @@ import mainbg from "../../../images/mainbg.jpg";
 const Hero = (props) => {
 
     const handleClick = () => {
-        props.scrollTo.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        props.scrollTo?.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     return (
         <div className="w-full h-screen object-cover bg-fixed bg-blend-multiply bg-gray-400" style={{ backgroundImage: `url(${mainbg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center" }}>
