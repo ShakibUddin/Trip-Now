@@ -15,7 +15,7 @@ const MyTrips = () => {
 
     useEffect(() => {
         fetchBookings();
-    }, [fetchBookings]);
+    }, []);
 
     useEffect(() => {
         //filtering users trips/bookings from all bookings
@@ -58,7 +58,7 @@ const MyTrips = () => {
     </div>);
     return (
         <div className="w-full p-2">
-            <Table>
+            <Table className="mb-96">
                 <Thead>
                     <Tr className="bg-blue-600">
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">TripId</Th>

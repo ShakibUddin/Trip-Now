@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const TripCard = (props) => {
     const { _id, name, description, image, price, day, night, breakfast, lunch, dinner } = props.data;
     return (
-        <div className="lg:w-1/4 md:w-2/5 sm:w-full rounded overflow-hidden shadow-lg m-2 flex justify-between flex-col pb-2">
+        <div className="lg:w-1/4 md:w-2/5 sm:w-full rounded overflow-hidden shadow-md m-2 flex justify-between flex-col pb-2">
             <div className='w-full'>
                 <div className="w-full h-60">
                     <img src={image} className="w-full h-full" alt="" />
@@ -31,7 +31,7 @@ const TripCard = (props) => {
                 </div>
 
                 <Link className="w-2/3" to={`/trip/${_id}`}>
-                    <button className="w-full mt-3 bg-blue-500 text-white text-center py-2 px-4">
+                    <button className="w-full mt-3 bg-blue-500 text-white text-center py-2 px-4 shadow-md rounded-md">
                         Book Now
                     </button>
                 </Link>

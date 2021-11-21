@@ -10,7 +10,7 @@ const ManageBookings = () => {
     const { allBookings, handleDeleteBooking, fetchBookings, handleUpdateBooking } = useData();
     useEffect(() => {
         fetchBookings();
-    }, [fetchBookings]);
+    }, []);
 
     function openModal(booking) {
         Swal.fire({
@@ -46,7 +46,7 @@ const ManageBookings = () => {
     </div>);
     return (
         <div className="w-full p-2">
-            <Table>
+            <Table className="mb-96">
                 <Thead>
                     <Tr className="bg-blue-600">
                         <Th className="text-center text-white font-bold text-sm uppercase py-3">TripId</Th>

@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm } from "react-hook-form";
+import Loader from 'react-loader-spinner';
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
@@ -9,7 +10,7 @@ import useData from '../../Hooks/useData';
 const SignUp = () => {
 
     const {
-        handleFirebaseEmailSignUp, signupError, user
+        handleFirebaseEmailSignUp, signupError, user, isLoading
     } = useAuth();
     const { locationState } = useData();
     const history = useHistory();
@@ -18,11 +19,15 @@ const SignUp = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}$/;
 
     const validationSchema = Yup.object().shape({
+        name: Yup.string()
+            .required('Name is required')
+            .min(3, 'Name must be at least 3 characters')
+            .max(30, 'Name must be maximum 30 characters'),
         email: Yup.string()
             .required('Email is required')
             .matches(emailRegex, { message: "Invalid email address", excludeEmptyString: true })
             .min(6, 'Email must be at least 6 characters')
-            .max(30, 'Email must be at least 30 characters'),
+            .max(30, 'Email must be maximum 30 characters'),
         password: Yup.string()
             .required('Password is required')
             .matches(passwordRegex, { message: "Password must have at least one uppercase, one lowercase, one digit and within 8 to 20 chatacters", excludeEmptyString: true })
@@ -38,7 +43,7 @@ const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm(formOptions);
     const onSubmit = data => {
         if (data.password !== data.confirmPassword) errors.confirmPassword = true;
-        handleFirebaseEmailSignUp(data.email, data.password);
+        handleFirebaseEmailSignUp(data.name, data.email, data.password);
     };
     useEffect(() => {
         if (user.email) {
@@ -49,6 +54,16 @@ const SignUp = () => {
     return (
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col items-center justify-center" onSubmit={handleSubmit(onSubmit)}>
             <p className="text-4xl py-10 font-extrabold">Register</p>
+            {isLoading && <Loader
+                type="ThreeDots"
+                color="#3386FF"
+                height={50}
+                width={50}
+                timeout={4000}
+            />}
+            <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Name" {...register("name")} />
+            {errors.name && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.name?.message}</p>}
+
             <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Email" {...register("email")} />
             {errors.email && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.email?.message}</p>}
 

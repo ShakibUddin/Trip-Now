@@ -2,6 +2,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import Loader from 'react-loader-spinner';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
@@ -11,7 +12,8 @@ const SignIn = () => {
     const {
         handleFirebaseEmailSignIn,
         signinError,
-        user
+        user,
+        isLoading
     } = useAuth();
     const { updateLocationState } = useData();
     const location = useLocation();
@@ -22,7 +24,7 @@ const SignIn = () => {
     //saving location state
     useEffect(() => {
         updateLocationState(location.state);
-    }, [location.state, updateLocationState])
+    }, [location.state])
 
     useEffect(() => {
         if (user.email) {
@@ -50,7 +52,13 @@ const SignIn = () => {
     return (
         <form className="lg:w-6/12 w-11/12 mx-auto p-5 m-5 flex flex-col justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
             <p className="text-4xl py-10 font-extrabold">SignIn</p>
-
+            {isLoading && <Loader
+                type="ThreeDots"
+                color="#3386FF"
+                height={50}
+                width={50}
+                timeout={4000}
+            />}
             <input className="lg:w-2/4 w-3/4 p-3 my-2 border-2 rounded-md" type="text" placeholder="Enter Email" {...register("email")} />
             {errors.email && <p className="lg:w-2/4 w-3/4 text-start text-red-600 font-bold">{errors.email?.message}</p>}
 

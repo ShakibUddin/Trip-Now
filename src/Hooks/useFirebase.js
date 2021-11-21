@@ -1,5 +1,7 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import axios from "axios";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { serverUrl } from "../Constants/Constants";
 import initializeFirebase from '../Firebase/firebase.init';
 
 initializeFirebase();
@@ -9,16 +11,37 @@ const useFirebase = () => {
     const [signinError, setSigninError] = useState("");
     const [signupError, setSignupError] = useState("");
     const [user, setUser] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
+    const checkAdminUrl = `${serverUrl}/admin`;//need to add email
+    const addUserInDbUrl = `${serverUrl}/user/add`;
 
+    const addUserInDb = (user) => {
+        axios.put(`${addUserInDbUrl}`, user);
+    }
+    const checkIfUserIsAdmin = (email) => {
+        axios.get(`${checkAdminUrl}/${email}`)
+            .then(response => {
+                setIsAdmin(response.data);
+            })
+    }
 
     const handleFirebaseEmailSignIn = (email, password) => {
+        setIsLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                setUser(user);
+                const { displayName, email, photoURL, emailVerified } = user;
+                const loggedInUser = {
+                    name: displayName,
+                    email: email,
+                    photo: photoURL,
+                    emailVerified: emailVerified,
+                    role: "USER"
+                };
+                setUser(loggedInUser);
                 setSigninError("");
                 setSignupError("");
             })
@@ -28,15 +51,32 @@ const useFirebase = () => {
             }).finally(() => setIsLoading(false));
     }
 
-    const handleFirebaseEmailSignUp = (email, password) => {
+    const handleFirebaseEmailSignUp = (name, email, password) => {
+        setIsLoading(true);
         return createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
                 sendEmailVerificationLink().then((result) => {
-                    setUser(user);
-                    setSignupError("");
-                    setSigninError("");
+                    const { email, photoURL, emailVerified } = user;
+                    //set name from registration
+                    updateProfile(auth.currentUser, {
+                        displayName: name
+                    }).then(() => {
+                        const loggedInUser = {
+                            name: name,
+                            email: email,
+                            photo: photoURL,
+                            emailVerified: emailVerified,
+                            role: "USER"
+                        };
+                        addUserInDb(loggedInUser);
+                        setUser(loggedInUser);
+                        setSignupError("");
+                        setSigninError("");
+                        setIsLoading(false);
+                    });
+
                 });
             })
             .catch((error) => {
@@ -54,6 +94,7 @@ const useFirebase = () => {
                     photo: photoURL,
                     emailVerified: emailVerified
                 };
+                checkIfUserIsAdmin(loggedInUser.email);
                 setUser(loggedInUser);
             } else {
                 setUser({});
@@ -80,6 +121,8 @@ const useFirebase = () => {
         signupError,
         user,
         isLoading,
+        checkIfUserIsAdmin,
+        isAdmin,
         logout
     }
 }

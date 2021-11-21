@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { developmentUrl, productionUrl } from "../Constants/Constants";
+import { serverUrl } from "../Constants/Constants";
 const axios = require('axios').default;
 
 let useApi = () => {
-    const development = false;
-    const serverUrl = development ? developmentUrl : productionUrl;
-
     const [trips, setTrips] = useState([]);
     const [popularPlaces, setPopularPlaces] = useState([]);
     const [hotels, setHotels] = useState([]);
@@ -50,6 +47,7 @@ let useApi = () => {
             })
             .catch(e => console.log(e));
     }, [allBookingsUrl])
+
 
     const handleAddTrip = ({ name, description, imageUrl, price, day, night, breakfast, lunch, dinner }) => {
         axios.post(addTripUrl, {
@@ -101,6 +99,7 @@ let useApi = () => {
         axios.put(`${updateBookingUrl}/${id}`)
             .then(function (response) {
                 if (response.data) {
+                    console.log("updating")
                     //fetch new data
                     fetchBookings();
                 }
@@ -112,17 +111,16 @@ let useApi = () => {
 
     useEffect(() => {
         fetchTrips();
-    }, [fetchTrips]);
+    }, []);
     useEffect(() => {
         fetchPopularPlaces();
-    }, [fetchPopularPlaces]);
+    }, []);
     useEffect(() => {
         fetchHotels();
-    }, [fetchHotels]);
+    }, []);
     useEffect(() => {
         fetchBookings();
-    }, [fetchBookings]);
-
+    }, []);
     return { trips, hotels, allBookings, handleBooking, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, addTripError };
 }
 
