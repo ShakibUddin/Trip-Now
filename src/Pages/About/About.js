@@ -45,7 +45,7 @@ const About = () => {
     ];
     return (
         <React.Fragment>
-            <NavBar></NavBar>
+            <NavBar transparent={true}></NavBar>
             <div className="w-full mx-auto flex flex-col items-center ">
                 <div className="w-full h-96">
                     <img className="w-full h-full object-cover" src={aboutbg} alt="" />

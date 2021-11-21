@@ -14,7 +14,7 @@ const Home = () => {
     const tripsRef = React.createRef();
     return (
         <React.Fragment>
-            <NavBar></NavBar>
+            <NavBar transparent={true}></NavBar>
             <div className="w-full flex flex-col items-center">
                 <Hero scrollTo={tripsRef}></Hero>
                 <Services></Services>

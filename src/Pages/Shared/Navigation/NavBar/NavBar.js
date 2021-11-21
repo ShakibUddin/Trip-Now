@@ -6,7 +6,8 @@ import useAuth from '../../../../Hooks/useAuth';
 import avatar from '../../../../images/avatar.png';
 import logo from '../../../../images/logo.png';
 
-const NavBar = () => {
+const NavBar = (props) => {
+    const transparent = props.transparent;
     const { user, isAdmin, logout } = useAuth();
     const navigation = [
         { name: 'Home', to: '/home' },
@@ -23,7 +24,7 @@ const NavBar = () => {
 
     return (
         <div className="w-full">
-            <Disclosure as="nav" className="w-full flex justify-center bg-blue-500">
+            <Disclosure as="nav" className={`w-full flex justify-center ${transparent ? "bg-transparent absolute" : "bg-blue-500"}`}>
                 {({ open }) => (
                     <>
                         <div className="w-full mx-auto px-2">
