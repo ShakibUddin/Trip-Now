@@ -20,8 +20,9 @@ const NavBar = () => {
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
+
     return (
-        <div>
+        <div className="w-full">
             <Disclosure as="nav" className="w-full flex justify-center bg-blue-500">
                 {({ open }) => (
                     <>

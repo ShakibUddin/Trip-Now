@@ -9,6 +9,7 @@ let useApi = () => {
     const [allBookings, setAllBookings] = useState([]);
     const [addTripError, setAddTripError] = useState("");
     const [locationState, setLocationState] = useState();
+    const [isDataLoadingFromApi, setIsDataLoadingFromApi] = useState(false);
 
     const tripsUrl = `${serverUrl}/trips`;
     const addTripUrl = `${serverUrl}/trip`;
@@ -41,11 +42,13 @@ let useApi = () => {
             .catch(e => console.log(e));
     }, [hotelsUrl])
     const fetchBookings = useCallback(() => {
+        setIsDataLoadingFromApi(true);
         axios.get(allBookingsUrl)
             .then(response => {
                 setAllBookings(response.data);
             })
-            .catch(e => console.log(e));
+            .catch(e => console.log(e))
+            .finally(() => setIsDataLoadingFromApi(false));
     }, [allBookingsUrl])
 
 
@@ -121,7 +124,7 @@ let useApi = () => {
     useEffect(() => {
         fetchBookings();
     }, []);
-    return { trips, hotels, allBookings, handleBooking, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, addTripError };
+    return { trips, hotels, allBookings, handleBooking, locationState, updateLocationState, handleDeleteBooking, fetchTrips, fetchHotels, fetchBookings, isDataLoadingFromApi, handleUpdateBooking, fetchPopularPlaces, popularPlaces, handleAddTrip, addTripError };
 }
 
 export default useApi;

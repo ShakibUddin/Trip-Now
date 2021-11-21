@@ -12,7 +12,6 @@ import MyTrips from '../../MyTrips/MyTrips';
 import NotFound from "../../NotFound/NotFound";
 import SignIn from '../../SignIn/SignIn';
 import SignUp from '../../SignUp/SignUp';
-import NavBar from './NavBar/NavBar';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 const Navigation = () => {
 
@@ -20,7 +19,6 @@ const Navigation = () => {
         <DataProvider>
             <AuthProvider>
                 <BrowserRouter>
-                    <NavBar></NavBar>
                     <RouteSwitch>
                         {/* using exact keyword to match with exact path */}
                         <Route exact path="/"><Home></Home></Route>

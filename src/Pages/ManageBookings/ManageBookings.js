@@ -4,10 +4,12 @@ import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import Swal from 'sweetalert2';
 import useData from '../../Hooks/useData';
+import Footer from '../Shared/Footer/Footer';
+import NavBar from '../Shared/Navigation/NavBar/NavBar';
 
 
 const ManageBookings = () => {
-    const { allBookings, handleDeleteBooking, fetchBookings, handleUpdateBooking } = useData();
+    const { allBookings, handleDeleteBooking, fetchBookings, handleUpdateBooking, isDataLoadingFromApi } = useData();
     useEffect(() => {
         fetchBookings();
     }, []);
@@ -33,7 +35,7 @@ const ManageBookings = () => {
         })
     }
 
-    if (allBookings.length === 0) return (<div className='w-full flex justify-center items-center h-96'>
+    if (isDataLoadingFromApi) return (<div className='w-full flex justify-center items-center h-96'>
 
         <Loader
             type="Bars"
@@ -44,50 +46,63 @@ const ManageBookings = () => {
         />
 
     </div>);
-    return (
-        <div className="w-full p-2">
-            <Table className="mb-96">
-                <Thead>
-                    <Tr className="bg-blue-600">
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">TripId</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Name</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Email</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Contact</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Address</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3">Status</Th>
-                        <Th className="text-center text-white font-bold text-sm uppercase py-3"></Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {
-                        allBookings.map(booking =>
-                            <Tr key={booking._id} className="bg-white">
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.tripId}({booking.destination})</Td>
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.name}</Td>
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.email}</Td>
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.contact}</Td>
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.address}</Td>
-                                <Td className="text-gray-600 text-xs text-center py-3">{booking.status}</Td>
-                                <Td>
-                                    <div className="flex justify-center">
-                                        <button className="w-2/4 mx-1 p-2 bg-green-500 text-white" onClick={() => {
-                                            //passing clicked booking _id
-                                            handleUpdateBooking(booking._id);
-                                        }
-                                        }>Approve</button>
-                                        <button className="w-2/4 mx-1 p-2 bg-red-500 text-white" onClick={() => {
-                                            // passing the clickd booking object
-                                            openModal(booking);
-                                        }}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                </Td>
-                            </Tr>)
-                    }
-                </Tbody>
-            </Table>
+
+    if (allBookings.length === 0) return (<React.Fragment>
+        <NavBar></NavBar>
+        <div className='w-full flex flex-col justify-center items-center h-96'>
+            <p className="text-2xl">There are no bookings at this moment</p>
         </div>
+        <Footer></Footer>
+    </React.Fragment>);
+    return (
+        <React.Fragment>
+            <NavBar></NavBar>
+            <div className="w-full p-2">
+                <Table className="mb-96">
+                    <Thead>
+                        <Tr className="bg-blue-600">
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">TripId</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">Name</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">Email</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">Contact</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">Address</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3">Status</Th>
+                            <Th className="text-center text-white font-bold text-sm uppercase py-3"></Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {
+                            allBookings.map(booking =>
+                                <Tr key={booking._id} className="bg-white">
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.tripId}({booking.destination})</Td>
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.name}</Td>
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.email}</Td>
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.contact}</Td>
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.address}</Td>
+                                    <Td className="text-gray-600 text-xs text-center py-3">{booking.status}</Td>
+                                    <Td>
+                                        <div className="flex justify-center">
+                                            <button className="w-2/4 mx-1 p-2 bg-green-500 text-white" onClick={() => {
+                                                //passing clicked booking _id
+                                                handleUpdateBooking(booking._id);
+                                            }
+                                            }>Approve</button>
+                                            <button className="w-2/4 mx-1 p-2 bg-red-500 text-white" onClick={() => {
+                                                // passing the clickd booking object
+                                                openModal(booking);
+                                            }}>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </Td>
+                                </Tr>)
+                        }
+                    </Tbody>
+                </Table>
+            </div>
+            <Footer></Footer>
+        </React.Fragment>
+
     );
 };
 

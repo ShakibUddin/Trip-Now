@@ -1,4 +1,6 @@
 
+import { faUserAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,6 +9,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
+
 
 const SignIn = () => {
     const {
@@ -70,6 +73,16 @@ const SignIn = () => {
 
             <p className="p-5 text-center">Don't have an account? <Link className="text-blue-800" to='/signup'>Register</Link></p>
 
+            <div className="flex justify-evenly my-2">
+                <button className="shadow-md rounded-md text-white m-2 px-4 py-2 bg-yellow-400" onClick={(e) => {
+                    e.preventDefault();
+                    handleFirebaseEmailSignIn("admin@gmail.com", "admiN9763");
+                }}><FontAwesomeIcon className="mr-2" icon={faUserShield} />Admin</button>
+                <button className="shadow-md rounded-md bg-green-500 text-white m-2 px-4 py-2" onClick={(e) => {
+                    e.preventDefault();
+                    handleFirebaseEmailSignIn("jhon@gmail.com", "aaaA1111");
+                }}><FontAwesomeIcon className="mr-2" icon={faUserAlt} />User</button>
+            </div>
         </form>
     );
 };
