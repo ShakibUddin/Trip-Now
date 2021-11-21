@@ -24,14 +24,14 @@ const NavBar = (props) => {
 
     return (
         <div className="w-full">
-            <Disclosure as="nav" className={`w-full flex justify-center ${transparent ? "bg-transparent absolute" : "bg-blue-500"}`}>
+            <Disclosure as="nav" className={`w-full ${transparent ? "lg:bg-transparent md:bg-transparent bg-blue-500 lg:absolute md:absolute relative" : "bg-blue-500"}`}>
                 {({ open }) => (
                     <>
                         <div className="w-full mx-auto px-2">
-                            <div className="relative flex items-center justify-center h-16">
+                            <div className="relative flex items-center justify-between h-16">
                                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                     {/* Mobile menu button*/}
-                                    <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                                    <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                                         <span className="sr-only">Open main menu</span>
                                         {open ? (
                                             <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -41,13 +41,14 @@ const NavBar = (props) => {
                                     </Disclosure.Button>
                                 </div>
                                 {/* logo code */}
-                                <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start ">
+                                <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                                     <div className="flex-shrink-0 flex items-center">
-                                        <div className="w-14 lg:block md:block hidden pr-2">
+                                        <div className="w-14">
                                             <img className="w-full" src={logo} alt="" />
                                         </div>
+                                        <p className="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold">Trip Now</p>
                                     </div>
-                                    <div className="hidden sm:block mr-auto my-auto">
+                                    <div className="hidden sm:block sm:ml-6 my-auto">
                                         <div className="flex space-x-4">
                                             {navigation.map((item) => (
                                                 <Link
@@ -89,7 +90,7 @@ const NavBar = (props) => {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="flex flex-col origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-md py-1 bg-white ring-1 ring-white ring-opacity-5 focus:outline-none">
+                                            <Menu.Items className="flex flex-col origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-md py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <img
                                                     className="h-12 w-12 rounded-full mx-auto"
                                                     src={user.photo ? user.photo : avatar}
@@ -97,9 +98,18 @@ const NavBar = (props) => {
                                                 />
                                                 <Menu.Item>
                                                     {() => (
-                                                        <p className="text-black text-xl font-bold text-center p-2">{user.name ? user.name : user.displayName}</p>
+                                                        <p className="text-black text-xl font-bold p-2">{user.name ? user.name : user.displayName}</p>
                                                     )}
                                                 </Menu.Item>
+                                                {
+                                                    user.email === "admin@gmail.com"
+                                                    &&
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <Link className="p-2  text-black hover:bg-blue-500 hover:text-white mx-2 rounded-md" to="/dashboard">Dashboard</Link>
+                                                        )}
+                                                    </Menu.Item>
+                                                }
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <Link className="p-2  text-black hover:bg-blue-500 hover:text-white mx-2 rounded-md" onClick={logout} to="/home">Logout</Link>
@@ -109,7 +119,7 @@ const NavBar = (props) => {
                                         </Transition>
                                     </Menu>
                                 </div>}
-                                {!user.email && <Link className="w-20 bg-white p-2 rounded-md font-semibold uppercase text-center text-blue-500 absolute right-0" to="/signin">Join</Link>}
+                                {!user.email && <Link className="w-20 bg-blue-500 p-2 rounded-md font-semibold uppercase text-center text-white" to="/signin">Join</Link>}
                             </div>
                         </div>
 

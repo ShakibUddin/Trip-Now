@@ -5,6 +5,7 @@ import { useHistory, useParams } from "react-router-dom";
 import * as Yup from 'yup';
 import useAuth from '../../Hooks/useAuth';
 import useData from '../../Hooks/useData';
+import TripCard from '../Home/Trips/TripCard/TripCard';
 import Footer from '../Shared/Footer/Footer';
 import NavBar from '../Shared/Navigation/NavBar/NavBar';
 
@@ -17,7 +18,7 @@ const CheckOut = () => {
     const history = useHistory();
     const { tripId } = useParams();
     const redirect_uri = '/home';
-    const [trip, setTrip] = useState("");
+    const [trip, setTrip] = useState({});
 
 
     useEffect(() => {
@@ -48,30 +49,11 @@ const CheckOut = () => {
             <NavBar></NavBar>
             <div className="w-full flex flex-col items-center">
                 <p className="text-4xl py-10 font-extrabold">Book Trip</p>
-                <div className="w-full flex flex-wrap justify-evenly">
-                    <div style={{ minWidth: "250px" }} className="lg:w-2/4 md:w-2/4 sm:w-full p-2 m-2 flex flex-col items-center">
-                        <div className="lg:w-3/4 md:w-full sm:w-full h-56 rounded-lg overflow-hidden">
-                            <img src={trip.image} className="w-full h-full" alt="" />
-                        </div>
-                        <div className="py-4">
-                            <p className="text-gray-700 text-3xl font-bold text-center">{trip.name}</p>
-                            <p className="text-yellow-500 font-bold text-3xl text-center">
-                                {trip.price} Taka <span className="text-black text-xl">/person</span>
-                            </p>
-                            <p className="text-gray-400 my-2 text-justify">
-                                {trip.description}
-                            </p>
-                            <div className="w-3/4 mx-auto bg-green-500 p-2 m-2 text-white text-center">
-                                <p>{trip.day} Days, {trip.night} Nights</p>
-                            </div>
-                            <div className="w-full flex justify-center">
-                                {trip.breakfast && <p className="bg-yellow-300 p-2 rounded-lg m-2 text-sm text-black">Breakfast</p>}
-                                {trip.lunch && <p className="bg-red-300 p-2 rounded-lg m-2 text-sm text-black">Lunch</p>}
-                                {trip.dinner && <p className="bg-green-300 p-2 rounded-lg m-2 text-sm text-black">Dinner</p>}
-                            </div>
-                        </div>
+                <div className="w-full grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1">
+                    <div style={{ minWidth: "250px" }} className="lg:px-16 md:px-4 py-2 m-2 flex flex-col items-center">
+                        <TripCard data={trip} showBuyNow={false}></TripCard>
                     </div>
-                    <form style={{ minWidth: "250px" }} className="lg:w-1/3 md:w-2/4 sm:w-full p-2 m-2 flex flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
+                    <form style={{ minWidth: "250px" }} className="px-8 py-2 m-2 flex flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
                         <input className="w-full p-3 my-2 border-2 rounded-md bg-white" type="text" placeholder="Enter name" {...register("name")} value={user.name} disabled={true} />
                         {errors.name && <p className="w-full text-start text-red-600 font-bold">{errors.name?.message}</p>}
 
